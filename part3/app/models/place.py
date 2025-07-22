@@ -1,21 +1,21 @@
 from app.models.base_model import BaseModel
 from app import db
+from app.models.association_tables import place_amenity
 
 class Place(BaseModel):
     __tablename__ = 'places'
 
-    id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.String(255), nullable=True)
-    price = db.Column(db.Float, nullable=False)
+    description = db.Column(db.String(1000), nullable=False)
+    price = db.Column(db.Integer, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
-    owner_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
-    place_id = db.Column(db.Integer, db.ForeignKey('places.id'), nullable=True)
-
-    owner = db.relationship('User', back_populates='places')
+    owner_id = db.Column(db.String(36), db.ForeignKey('users.id'),
+                         nullable=False)
     reviews = db.relationship('Review', backref='place', lazy=True)
-    amenities = db.relationship('Amenity', secondary='place_amenity', backref='places', lazy='dynamic')
+    amenities = db.relationship('Amenity', secondary=place_amenity,
+                                lazy='subquery',
+                                backref=db.backref('places', lazy=True))
 
     def __init__(self, title: str, price: float, latitude: float, longitude: float, owner_id: int, description=""):
         super().__init__()

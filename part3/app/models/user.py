@@ -2,7 +2,7 @@ from datetime import datetime
 import uuid
 from app.extension_bcrypt import bcrypt
 from app.extensions import db
-
+from sqlalchemy.orm import validates, relationship
 from app.models import user
 from app.models.base_model import BaseModel
 
@@ -18,8 +18,9 @@ class User(BaseModel):
     email = db.Column(db.String(120), nullable=False, unique=True)
     password = db.Column(db.String(128), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
-    places = db.relationship('Place', backref='owner', lazy=True)
-    reviews = db.relationship('Review', backref='user', lazy=True)
+
+    places = relationship('Place', backref='owner', lazy=True)
+    reviews = relationship('Review', backref='author', lazy=True)
 
     def __init__(self, first_name: str, last_name: str, email: str, password: str, is_admin=False):
         super().__init__()
