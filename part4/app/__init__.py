@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_restx import Api
 from config import config
 from flask_jwt_extended import JWTManager
@@ -14,10 +14,17 @@ jwt = JWTManager()
 
 def create_app(config_name='default'):
     app = Flask(__name__)
+
+    
+
     app.config.from_object(config[config_name])
     jwt.init_app(app)
     db.init_app(app)
     bcrypt.init_app(app)
+
+    @app.route('/')
+    def create_index():
+        return render_template('index.html')
 
     api = Api(app, version='1.0', title='HBnB API', doc='/api/v1/',
               description='HBnB Application API')
