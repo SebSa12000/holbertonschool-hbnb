@@ -25,6 +25,22 @@ def create_app(config_name='default'):
     @app.route('/')
     def create_index():
         return render_template('index.html')
+    
+    @app.route('/index.html')
+    def create_index2():
+        return render_template('index.html')
+    
+    @app.route('/login.html')
+    def create_login():
+        return render_template('login.html')
+    
+    @app.route('/add_review.html')
+    def create_review():
+        return render_template('add_review.html')
+    
+    @app.route('/place.html')
+    def create_place():
+        return render_template('place.html')
 
     api = Api(app, version='1.0', title='HBnB API', doc='/api/v1/',
               description='HBnB Application API')
