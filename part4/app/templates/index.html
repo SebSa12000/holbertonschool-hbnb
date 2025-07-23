@@ -7,19 +7,15 @@
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="login.html" id="login-link">Login</a>
-            <a href="add_review.html" id="login-link">Add review</a>
-            <a href="index.html" id="login-link"><strong>Home</strong></a>
-            <a href="place.html" id="login-link">Places</a>
-        </nav>
-    </header>
+    {% include "header.html" %}
     <main>
         <section id="filter">
             <label for="price-filter">Max Price:</label>
             <select id="price-filter">
                 <!-- Options will be populated dynamically -->
+                 <option>0-50</option>
+                 <option>50-100</option>
+                 <option>100+</option>
             </select>
         </section>
         <section id="places-list">

@@ -34,10 +34,6 @@ def create_app(config_name='default'):
     def create_login():
         return render_template('login.html')
     
-    @app.route('/add_review.html')
-    def create_review():
-        return render_template('add_review.html')
-    
     @app.route('/place.html')
     def create_place():
         return render_template('place.html')
