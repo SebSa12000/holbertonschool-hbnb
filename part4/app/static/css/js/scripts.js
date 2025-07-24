@@ -5,6 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     /* DO SOMETHING */
+    alert('coucou4');
   });
 
 fct()
