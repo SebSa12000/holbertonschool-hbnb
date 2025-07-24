@@ -5,11 +5,11 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     /* DO SOMETHING */
-    alert('coucou4');
+
   });
 
-fct()
+function fct()
 {
-  alert('coucou3');
+  alert('Envoi to do');
 
 }
