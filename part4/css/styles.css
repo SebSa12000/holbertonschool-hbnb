@@ -22,12 +22,32 @@ header {
     padding: 1rem;
 }
 
+h1 {
+    text-align: center;
+}
+
+#filter {
+    text-align: center;
+}
+
 .place-card {
     margin: 20px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 10px;
     background-color: white;
+
+    
+}
+
+#place-details {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: white;
+
+    
 }
 
 .review-card {
