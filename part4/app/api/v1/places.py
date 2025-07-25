@@ -78,6 +78,8 @@ class PlaceList(Resource):
     def get(self):
         """Retrieve a list of all places"""
         places = facade.get_all_places()
+        for place in places:
+            print(place.to_dict())
         return [place.to_dict()
                 for place in places], 200
 

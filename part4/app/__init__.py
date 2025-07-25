@@ -9,6 +9,7 @@ from app.api.v1.users import api as users_ns
 from app.api.v1.reviews import api as review_ns
 from app.api.v1.auth import api as auth_ns
 from app.extension_bcrypt import bcrypt
+from flask_cors import CORS
 
 jwt = JWTManager()
 
@@ -22,21 +23,7 @@ def create_app(config_name='default'):
     db.init_app(app)
     bcrypt.init_app(app)
 
-    @app.route('/')
-    def create_index():
-        return render_template('index.html')
-    
-    @app.route('/index.html')
-    def create_index2():
-        return render_template('index.html')
-    
-    @app.route('/login.html')
-    def create_login():
-        return render_template('login.html')
-    
-    @app.route('/place.html')
-    def create_place():
-        return render_template('place.html')
+    CORS(app)
 
     api = Api(app, version='1.0', title='HBnB API', doc='/api/v1/',
               description='HBnB Application API')
