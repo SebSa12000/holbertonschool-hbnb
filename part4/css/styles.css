@@ -22,6 +22,20 @@ header {
     padding: 1rem;
 }
 
+.place-card {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.review-card {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
 nav a {
     color: #fff;
     text-decoration: none;
