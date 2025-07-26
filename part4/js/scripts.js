@@ -1,39 +1,128 @@
+function getCookie(name) {
+  const cookieValue = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith(name))
+    ?.split("=")[1];
+  return cookieValue;
+}
+
 /* 
   This is a SAMPLE FILE to get you started.
   Please, follow the project instructions to complete the tasks.
 */
 
-document.addEventListener('DOMContentLoaded', () => {
+function checkAuthentication() {
+  const token = getCookie("token");
+  const loginLink = document.getElementById("login-link");
+  const logoutLink = document.getElementById("logout-link");
+  const placesList = document.getElementById("places-list");
+  const footer = document.querySelector('footer');
 
-
-    // Ftech detailed place if token and place id identified
-    
-    const urlParams = new URLSearchParams(window.location.search);
-    const placeId = urlParams.get("id");
-    
-    try {
-      if (placeId) {
-        fetchDetailedPlace('', placeId);
-      }
-      else
-      {
-        /* DO SOMETHING */
-        fetchPlaces('');
-      }
-    } catch (error) {
-      console.error(error);
+  if (!token) {
+    loginLink.style.display = "block";
+    logoutLink.style.display = "none";
+    if (placesList) {
+      placesList.innerHTML =
+        `<a href="login.html">
+          <p class='noLogged'>You need to be logged in to display places.</p>
+        </a>`;
+        footer.style.position = 'fixed';
     }
+  } else {
+    loginLink.style.display = "none";
+    logoutLink.style.display = "block";
+    fetchPlaces(token);
+  }
+}
+
+
+/** Login/Logout Form  */
+document.addEventListener("DOMContentLoaded", () => {
+  // Authentification check for user based on the token cookie
+  checkAuthentication();
+
+  // Logout functionnality, deleting the cookie token
+  const logoutLink = document.getElementById("logout-link");
+  if (logoutLink) {
+    logoutLink.addEventListener("click", function (event) {
+      event.preventDefault();
+      deleteTokenCookie();
+      window.location.href = "login.html";
+    });
+  }
+
+  // Submit event for login ( receiveing email and password from form)
+  const loginForm = document.getElementById("login-form");
+  if (loginForm) {
+    loginForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        await loginUser(email, password);
+      } catch (error) {
+        console.log("error:" + error);
+      }
+    });
+  }
+  // Flipping Login / Create account
+  const flipContainer = document.querySelector(".flip-container");
+  const showRegister = document.getElementById("show-register");
+  const showLogin = document.getElementById("show-login");
+
+  showRegister.addEventListener("click", (e) => {
+    e.preventDefault();
+    flipContainer.classList.add("flipped");
   });
+
+  showLogin.addEventListener("click", (e) => {
+    e.preventDefault();
+    flipContainer.classList.remove("flipped");
+  });
+});
+
+// Ftech detailed place if token and place id identified
+const token = getCookie("token");
+const urlParams = new URLSearchParams(window.location.search);
+const placeId = urlParams.get("id");
+try {
+  if (token && placeId) {
+    fetchDetailedPlace(token, placeId);
+  }
+} catch (error) {
+  console.error(error);
+}
+
+
+/** Login User */
+async function loginUser(email, password) {
+  const response = await fetch("http://127.0.0.1:5000/api/v1/auth/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    document.cookie = `token=${data.access_token}; path=/`;
+    window.location.href = "index.html";
+    console.log(`${data.access_token}`);
+  } else {
+    alert("Login failed: " + response.statusText);
+  }
+}
 
 /** Places fetch and display */
 async function fetchPlaces(token) {
   try {
     const response = await fetch("http://127.0.0.1:5000/api/v1/places/", {
-
-    });
-    /*      headers: {
+      headers: {
         Authorization: `Bearer ${token}`,
-      },*/
+      },
+    });
     const places = await response.json();
     displayPlaces(places);
   } catch (error) {
