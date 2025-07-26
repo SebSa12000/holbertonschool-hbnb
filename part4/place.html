@@ -9,13 +9,27 @@
 </head>
 <body>
     <header>
-        <nav>
-            <img class="logo"  src="./images/logo.png" />
-            <a href="login.html" id="login-link" class="login-button">Login</a>
-            <a href="index.html" id="login-link">Home</a>
-            <a href="place.html" id="login-link">Place</a>
-        </nav>
-</header>
+            <div class="logo-login">
+
+            <a href="index.html"><img src="./images/logo.png" alt="index"></a>
+
+            <a href="login.html" id="login-link">
+                <button class="login-button">
+                  <span class="login-text">Login</span>
+                </button>
+              </a>
+            <a href="login.html" id="logout-link">
+                <button class="login-button">
+                  <span class="login-text">Logout</span>
+                </button>
+            </a>
+            <a href="index.html">
+                <button>
+                  <span>List of places</span>
+                </button>
+            </a>
+        </div>
+    </header>
     <main>
         <section id="place-details">
             <!-- Place details will be populated dynamically -->

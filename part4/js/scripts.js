@@ -66,20 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-  // Flipping Login / Create account
-  const flipContainer = document.querySelector(".flip-container");
-  const showRegister = document.getElementById("show-register");
-  const showLogin = document.getElementById("show-login");
 
-  showRegister.addEventListener("click", (e) => {
-    e.preventDefault();
-    flipContainer.classList.add("flipped");
-  });
-
-  showLogin.addEventListener("click", (e) => {
-    e.preventDefault();
-    flipContainer.classList.remove("flipped");
-  });
 });
 
 // Ftech detailed place if token and place id identified
@@ -133,7 +120,10 @@ async function fetchPlaces(token) {
 
 function displayPlaces(places) {
   const placesList = document.getElementById("places-list");
+  if (!placesList)
+    return;
   placesList.innerHTML = "";
+  
   places.forEach((place) => {
     const placeCard = document.createElement("div");
     placeCard.className = "place-card";
@@ -203,4 +193,8 @@ function displayDetailedPlaces(place) {
     reviewsPlace.innerHTML += "<p>No reviews available for this place.</p>";
   }
   //initializeCarousel();
+}
+
+function deleteTokenCookie() {
+  document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 }
