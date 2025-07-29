@@ -139,7 +139,31 @@ function displayPlaces(places) {
     `;
     placesList.appendChild(placeCard);
   });
-  /*applyPriceFilter();*/
+  applyPriceFilter('All');
+}
+
+function applyPriceFilter(filterprice) {
+  console.log('prix:' + filterprice);
+  const priceOptions = document.querySelectorAll(".price-option");
+  const places = document.querySelectorAll(".place-card");
+
+
+  const selectedPrice = filterprice;
+
+  places.forEach((card) => {
+    const price = parseInt(
+      card
+        .querySelector(".price-card strong")
+        .textContent.replace(" €", ""),
+      10
+    );
+    if (selectedPrice === "All" || price <= parseInt(selectedPrice, 10)) {
+      card.style.display = "flex";
+    } else {
+      card.style.display = "none";
+    }
+  });
+
 }
 
 /** Place Details Fetch and Display */

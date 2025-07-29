@@ -25,7 +25,15 @@ def create_app(config_name='default'):
 
     CORS(app)
 
-    api = Api(app, version='1.0', title='HBnB API', doc='/api/v1/',
+    authorizations = {
+        'token': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization',
+        }
+    }
+
+    api = Api(app, version='1.0', title='HBnB API', doc='/api/v1/', authorizations=authorizations,
               description='HBnB Application API')
 
     api.add_namespace(users_ns, path='/api/v1/users')
