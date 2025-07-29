@@ -128,11 +128,8 @@ function displayPlaces(places) {
     const placeCard = document.createElement("div");
     placeCard.className = "place-card";
     placeCard.innerHTML = `
-      <a href="place.html?id=${place.id}" class="place-card-image">
-        ${place.title}
-      </a>
       <div class="place-card-content">
-        <h2>${place.title}</h2>
+         <p class="title"><u>${place.title}</u>&nbsp;<a href="place.html?id=${place.id}">Détail</a></p>
         <p class="description">${place.description}</p>
         <p class="price-card"><strong>${place.price} €</strong> per night</p>
       </div>
