@@ -140,7 +140,7 @@ function displayPlaces(places) {
 }
 
 function applyPriceFilter(filterprice) {
-  console.log('prix:' + filterprice);
+
   const priceOptions = document.querySelectorAll(".price-option");
   const places = document.querySelectorAll(".place-card");
 
@@ -224,8 +224,6 @@ async function submitReview(token, placeId, reviewText, rating) {
       rating: parseInt(rating, 10),
       place_id: placeId,
     };
-    console.log("Request body:", body);
-    console.log(token);
 
     const response = await fetch(`http://127.0.0.1:5000/api/v1/reviews/`, {
       method: "POST",
