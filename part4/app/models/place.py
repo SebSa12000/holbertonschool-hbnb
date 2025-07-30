@@ -1,6 +1,7 @@
 from app.models.base_model import BaseModel
 from app import db
 from app.models.association_tables import place_amenity
+from sqlalchemy.orm import validates
 
 class Place(BaseModel):
     __tablename__ = 'places'
@@ -17,24 +18,75 @@ class Place(BaseModel):
                                 lazy='subquery',
                                 backref=db.backref('places', lazy=True))
 
-    def __init__(self, title: str, price: float, latitude: float, longitude: float, owner_id: int, description=""):
-        super().__init__()
+    @validates('title')
+    def validate_title(self, key, value):
+        """Validation for title"""
+        if not value:
+            raise TypeError("Title must be present.")
+        if len(value) > 100:
+            raise ValueError(
+                "Title must be present with a maximum of 100 characters.")
+        return value
 
-        if not title or len(title) > 100:
-            raise ValueError("Title is required and must be ≤ 100 characters.")
-        if price <= 0:
-            raise ValueError("Price must be positive.")
-        if not (-90.0 <= latitude <= 90.0):
-            raise ValueError("Latitude must be between -90 and 90.")
-        if not (-180.0 <= longitude <= 180.0):
-            raise ValueError("Longitude must be between -180 and 180.")
+    @validates('description')
+    def validate_description(self, key, value):
+        """Validation for description"""
+        if len(value) > 1000:
+            raise ValueError(
+                "Description must be less than 1000 characters.")
+        return value
 
-        self.title = title
-        self.description = description
-        self.price = price
-        self.latitude = latitude
-        self.longitude = longitude
-        self.owner_id = owner_id
+    @validates('price')
+    def validate_price(self, key, value):
+        if not isinstance(value, int):
+            raise TypeError("Price must be an integer.")
+        if value <= 0 or not value:
+            raise ValueError("The price must be present and greater than 0.")
+        return value
+
+    @validates('latitude')
+    def validate_latitude(self, key, value):
+        if not isinstance(value, float):
+            raise TypeError("Latitude must be a float.")
+        if value < -90 or value > 90:
+            raise ValueError("Latitude must be between -90.0 and 90.0")
+        return value
+
+    @validates('longitude')
+    def validate_longitude(self, key, value):
+        if not isinstance(value, float):
+            raise TypeError("Longitude must be a float.")
+        if value < -180 or value > 180:
+            raise ValueError("Longitude must be between -180.0 and 180.0")
+        return value
+
+    @validates('owner_id')
+    def validate_owner_id(self, key, value):
+        if not isinstance(value, str):
+            raise TypeError("Owner must be a User ID string.")
+        return value
+
+    def add_review(self, review):
+        """Add a review to the place."""
+        self.reviews.append(review)
+        self.save()
+
+    def delete_review(self, review):
+        """Delete a review from the place."""
+        if review in self.reviews:
+            self.reviews.remove(review)
+            self.save()
+
+    def add_amenity(self, amenity):
+        """Add an amenity to the place."""
+        self.amenities.append(amenity)
+        self.save()
+
+    def delete_amenity(self, amenity):
+        """Delete a review from the place."""
+        if amenity in self.amenities:
+            self.reviews.remove(amenity)
+            self.save()
 
     def to_dict(self):
         """Convert the Place object to a dictionary."""
@@ -45,5 +97,9 @@ class Place(BaseModel):
             "price": self.price,
             "latitude": self.latitude,
             "longitude": self.longitude,
-            "owner_id": self.owner_id
+            "owner_id": self.owner_id,
+            "amenities": [{'id': amenity.id, 'name': amenity.name}
+                          for amenity in self.amenities],
+            "reviews": [{'id': review.id, 'text': review.text, 'rating': review.rating}
+                          for review in self.reviews]
         }
