@@ -258,9 +258,6 @@ function displayDetailedPlaces(place) {
         <p class="amenities">What this place offers: 
 
         </p>
-        <div class='addButtonContainer'><a href="add_review.html?id=${
-          place.id
-        }"><button>Add a review</button></a></div>
     `;
 
   const reviewsPlace = document.getElementById("reviews");

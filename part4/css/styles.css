@@ -40,6 +40,19 @@ h1 {
     
 }
 
+#review-form {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin: 20px;
+    padding: 10px;
+}
+
+#review {
+    width: 1000px;
+    height: 200px;
+}
+
 #place-details {
     margin: 20px;
     padding: 10px;
@@ -50,11 +63,20 @@ h1 {
     
 }
 
+button {
+    width: 100px;
+    height: 30px;
+    background-color: yellow;
+    border: 1px solid #000;
+    border-radius: 10px;
+}
+
 .review-card {
     margin: 20px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 10px;
+    background-color: white;
 }
 
 nav a {
