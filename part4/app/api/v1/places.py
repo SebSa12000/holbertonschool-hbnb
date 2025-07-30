@@ -86,9 +86,9 @@ class PlaceList(Resource):
 @api.route('/<place_id>')
 class PlaceResource(Resource):
     @api.response(200, 'Place details retrieved successfully')
-    @api.response(404, 'Place not found3')
+    @api.response(404, 'Place not found')
     def get(self, place_id):
-        '''Get amenity details with ID'''
+        '''Get place details with ID'''
         place = facade.get_place(place_id)
         if not place:
             return {'error': 'place not found4'}, 404
@@ -96,11 +96,11 @@ class PlaceResource(Resource):
 
     @api.expect(place_model)
     @api.response(200, 'Place updated successfully')
-    @api.response(404, 'Place not found2')
+    @api.response(404, 'Place not found')
     @api.response(400, 'Invalid input data')
     @jwt_required()
     def put(self, place_id):
-        '''Update amenity details with ID'''
+        '''Update place details with ID'''
 
         place_data = api.payload
         current_user = get_jwt_identity()
@@ -119,6 +119,7 @@ class PlaceResource(Resource):
 class AdminPlaceModify(Resource):
     @jwt_required()
     def put(self, place_id):
+        '''Update place for administrator'''
         current_user = get_jwt_identity()
 
         # Set is_admin default to False if not exists

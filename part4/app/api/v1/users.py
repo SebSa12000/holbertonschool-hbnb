@@ -78,6 +78,7 @@ class UserResource(Resource):
 class AdminUserCreate(Resource):
     @jwt_required()
     def post(self):
+        """Register a new user for admin"""
         current_user = get_jwt_identity()
         if not current_user.get('is_admin'):
             return {'error': 'Admin privileges required'}, 403

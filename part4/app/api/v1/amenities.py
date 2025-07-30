@@ -68,6 +68,7 @@ class AmenityResource(Resource):
 class AdminAmenityCreate(Resource):
     @jwt_required()
     def post(self):
+        """Register a new amenity for admin"""
         current_user = get_jwt_identity()
         if not current_user.get('is_admin'):
             return {'error': 'Admin privileges required'}, 403
@@ -79,6 +80,7 @@ class AdminAmenityCreate(Resource):
 class AdminAmenityModify(Resource):
     @jwt_required()
     def put(self, amenity_id):
+        """Update a new amenity for admin"""
         current_user = get_jwt_identity()
         if not current_user.get('is_admin'):
             return {'error': 'Admin privileges required'}, 403
