@@ -89,8 +89,6 @@ class HBnBFacade:
         place = self.get_place(review_data['place_id'])
         if not place:
             raise ValueError("Place not found.")
-        print("review_data")
-        print(review_data)
         review = Review(review_data['text'], review_data['rating'], review_data['user_id'], review_data['place_id'])
         self.review_repo.add(review)
         return review

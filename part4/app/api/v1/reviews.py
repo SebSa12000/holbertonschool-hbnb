@@ -27,7 +27,6 @@ class ReviewList(Resource):
             current_user = get_jwt_identity()
             place = facade.get_place(review_data['place_id'])
             review_data['user_id'] = current_user['id']
-            print(review_data)
             if current_user['id'] == place.owner_id:
                 return {'error': 'Unauthorized action'}, 403
 
