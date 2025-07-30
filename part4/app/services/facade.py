@@ -82,22 +82,16 @@ class HBnBFacade:
     
     # Review Facade
     def create_review(self, review_data):
-        id_place = review_data["place_id"]
-
-        place = self.place_repo.get(id_place)
+        """Create a new review."""
+        user = self.get_user(review_data['user_id'])
+        if not user:
+            raise ValueError("User not found.")
+        place = self.get_place(review_data['place_id'])
         if not place:
             raise ValueError("Place not found.")
-
-        user1 = self.user_repo.get(review_data["user_id"])
-        if not user1:
-            raise ValueError("User not found.")
-
-        review = Review(
-            text=review_data["text"],
-            user=user1,
-            place=place,
-            rating=review_data["rating"]
-        )
+        print("review_data")
+        print(review_data)
+        review = Review(review_data['text'], review_data['rating'], review_data['user_id'], review_data['place_id'])
         self.review_repo.add(review)
         return review
 
