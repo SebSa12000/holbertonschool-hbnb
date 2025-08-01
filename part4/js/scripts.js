@@ -254,7 +254,18 @@ function displayDetailedPlaces(place) {
         <h1 class="detailedTitle">${place.title}</h1>
         <p class="detailedDescription">${place.description}</p>
         <p class="amenities">What this place offers: 
-
+        ${place.amenities
+          .map(
+            (a) => `
+            <br>
+          -<span class="amenity" data-alt="${a.name}">
+            ${
+              a.name
+            }
+          </span>
+          `
+          )
+          .join("")}
         </p>
     `;
 
